@@ -46,6 +46,7 @@ class UserController{
             const secPass = await bcrypt.hash(req.body.password, salt);
             //creat a new use
             user = await User.create({
+                user_id: req.body.user_id,
               name: req.body.name,
               phoneNo: req.body.phoneNo,
               password: secPass,
@@ -70,9 +71,9 @@ class UserController{
     
      static async Login(req, res){
         let success = false
-        const { phoneNo, password } = req.body;
+        const { user_id, password } = req.body;
     try {
-      let user = await User.findOne({ phoneNo });
+      let user = await User.findOne({ user_id });
       if (!user) {
         success = false;
         return res.status(400).json({ success, error: "please try to login with correct credentials" });
